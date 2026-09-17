@@ -18,12 +18,20 @@ interface Props {
   backHref: string; // Link de retorno (ex: "/#work")
   backLabel: string; // Texto do botão de retorno (ex: "Voltar para Trabalho")
   eyebrow: string; // Etiqueta da seção (ex: "Seção")
+  showBlocks?: boolean; // Se false, exibe apenas a parte principal (cabeçalho + banner)
 }
 
-const { item, contentPrefix, backHref, backLabel, eyebrow } = Astro.props;
+const {
+  item,
+  contentPrefix,
+  backHref,
+  backLabel,
+  eyebrow,
+  showBlocks = true,
+} = Astro.props;
 
-// Desestruturação dos blocos de conteúdo cadastrados
-const [contextBlock, processBlock, resultBlock] = item.detail.blocks;
+// Desestruturação dos blocos de conteúdo cadastrados (se existirem)
+const [contextBlock, processBlock, resultBlock] = item.detail?.blocks ?? [];
 
 // Função auxiliar para gerar chaves de texto dinâmicas (integradas com content-overrides.json)
 const key = (suffix: string) => `${contentPrefix}.${suffix}`;
@@ -132,7 +140,7 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
     {/* 4. SEÇÃO 01: CONTEXTO (Texto explicativo + Imagem lateral)        */}
     {/* ----------------------------------------------------------------- */}
     {
-      contextBlock && (
+      showBlocks && contextBlock && (
         <section class="mt-16 border-t border-base-200 pt-12 dark:border-base-800 lg:mt-24 lg:pt-16">
           <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 lg:items-start">
             {/* Coluna 1: Rótulo da seção e nota lateral (Aside) */}
@@ -193,7 +201,7 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
     {/* ----------------------------------------------------------------- */}
     {/* 5. SEÇÕES 02 e 03 (DESATIVADAS / COMENTADAS)                      */}
     {/* Se você quiser reativar no futuro, basta remover os delimitadores */}
-    {/* de comentário {/* e */} deste bloco. */}
+    {/* de comentário {/* e } deste bloco. */}
     {/* ----------------------------------------------------------------- */}
     {
       /*

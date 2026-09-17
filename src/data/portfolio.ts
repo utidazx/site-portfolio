@@ -58,7 +58,10 @@ export const workItems: PortfolioCase[] = [
     description:
       "Descreva aqui a experiência, seu papel e principais contribuições no projeto.",
     category: "Tipo de trabalho",
-    detail: defaultDetail("trabalho"),
+    detail: {
+      ...defaultDetail("trabalho"),
+      blocks: [],
+    },
   },
 
 ];
