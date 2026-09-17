@@ -1,4 +1,9 @@
 ---
+// =========================================================================
+// COMPONENTE: CaseDetail.astro
+// Responsável por renderizar a página de detalhes de um Trabalho ou Projeto
+// =========================================================================
+
 import defaultProjectImage from "@/images/projects/default.svg";
 import EditableImage from "@/components/landing/EditableImage.astro";
 import Text from "@/components/fundations/elements/Text.astro";
@@ -6,22 +11,29 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 import type { PortfolioCase } from "@/data/portfolio";
 import { getContent } from "@/lib/getContent";
 
+// Propriedades recebidas pela página (/trabalho/[slug] ou /projeto/[slug])
 interface Props {
-  item: PortfolioCase;
-  contentPrefix: string;
-  backHref: string;
-  backLabel: string;
-  eyebrow: string;
+  item: PortfolioCase; // Dados do case vindos de portfolio.ts
+  contentPrefix: string; // Prefixo para as chaves editáveis (ex: "work.trabalho-1")
+  backHref: string; // Link de retorno (ex: "/#work")
+  backLabel: string; // Texto do botão de retorno (ex: "Voltar para Trabalho")
+  eyebrow: string; // Etiqueta da seção (ex: "Seção")
 }
 
 const { item, contentPrefix, backHref, backLabel, eyebrow } = Astro.props;
 
+// Desestruturação dos blocos de conteúdo cadastrados
 const [contextBlock, processBlock, resultBlock] = item.detail.blocks;
+
+// Função auxiliar para gerar chaves de texto dinâmicas (integradas com content-overrides.json)
 const key = (suffix: string) => `${contentPrefix}.${suffix}`;
 ---
 
 <section class="pb-16 pt-32 lg:pb-32 lg:pt-40">
   <Wrapper variant="standard">
+    {/* ----------------------------------------------------------------- */}
+    {/* 1. BOTÃO SUPERIOR: Voltar para a página anterior / home          */}
+    {/* ----------------------------------------------------------------- */}
     <a
       href={backHref}
       class="text-xs tracking-tight text-base-600 transition-colors hover:text-accent-700 dark:text-base-300 dark:hover:text-accent-400"
@@ -29,7 +41,13 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
       ← {backLabel}
     </a>
 
-    <div class="mt-8 grid grid-cols-1 gap-8 border-b border-base-200 pb-12 dark:border-base-800 lg:mt-12 lg:grid-cols-4 lg:items-start lg:gap-12">
+    {/* ----------------------------------------------------------------- */}
+    {/* 2. CABEÇALHO DO CASE: Ano, Título, Resumo e Metadados (Stack)    */}
+    {/* ----------------------------------------------------------------- */}
+    <div
+      class="mt-8 grid grid-cols-1 gap-8 border-b border-base-200 pb-12 dark:border-base-800 lg:mt-12 lg:grid-cols-4 lg:items-start lg:gap-12"
+    >
+      {/* Ano de atuação / realização */}
       <Text
         tag="p"
         variant="textXS"
@@ -39,6 +57,7 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
         {getContent(key("year"), item.year)}
       </Text>
 
+      {/* Título principal e descrição de introdução (Summary) */}
       <div class="lg:col-span-2">
         <Text
           tag="h1"
@@ -58,7 +77,10 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
         </Text>
       </div>
 
-      <aside class="flex flex-col gap-6 border-t border-base-200 pt-6 dark:border-base-800 lg:border-t-0 lg:pt-0">
+      {/* Coluna lateral direita: Categoria e Metadados (Papel, Stack, etc.) */}
+      <aside
+        class="flex flex-col gap-6 border-t border-base-200 pt-6 dark:border-base-800 lg:border-t-0 lg:pt-0"
+      >
         <Text
           tag="p"
           variant="textXS"
@@ -67,6 +89,8 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
         >
           {getContent(key("category"), item.category)}
         </Text>
+
+        {/* Lista de Metadados (ex: STACK, DURAÇÃO, etc.) */}
         {
           item.detail.meta.map((entry, index) => (
             <div>
@@ -92,6 +116,9 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
       </aside>
     </div>
 
+    {/* ----------------------------------------------------------------- */}
+    {/* 3. IMAGEM PRINCIPAL: Imagem de destaque em banner largo           */}
+    {/* ----------------------------------------------------------------- */}
     <EditableImage
       imageKey={key("image")}
       width={1420}
@@ -101,12 +128,20 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
       class="mt-12 aspect-[16/10] w-full object-cover object-center lg:mt-16"
     />
 
+    {/* ----------------------------------------------------------------- */}
+    {/* 4. SEÇÃO 01: CONTEXTO (Texto explicativo + Imagem lateral)        */}
+    {/* ----------------------------------------------------------------- */}
     {
       contextBlock && (
         <section class="mt-16 border-t border-base-200 pt-12 dark:border-base-800 lg:mt-24 lg:pt-16">
           <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 lg:items-start">
+            {/* Coluna 1: Rótulo da seção e nota lateral (Aside) */}
             <div class="lg:col-span-3">
-              <Text tag="p" variant="textXS" class="uppercase text-base-600 dark:text-base-300">
+              <Text
+                tag="p"
+                variant="textXS"
+                class="uppercase text-base-600 dark:text-base-300"
+              >
                 {eyebrow} 01
               </Text>
               <Text
@@ -119,6 +154,7 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
               </Text>
             </div>
 
+            {/* Coluna 2: Título da seção e texto detalhado */}
             <div class="lg:col-span-4">
               <Text
                 tag="h2"
@@ -138,6 +174,7 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
               </Text>
             </div>
 
+            {/* Coluna 3: Imagem lateral da seção 01 */}
             <div class="lg:col-span-5">
               <EditableImage
                 imageKey={key("image.context")}
@@ -153,23 +190,24 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
       )
     }
 
+    {/* ----------------------------------------------------------------- */}
+    {/* 5. SEÇÕES 02 e 03 (DESATIVADAS / COMENTADAS)                      */}
+    {/* Se você quiser reativar no futuro, basta remover os delimitadores */}
+    {/* de comentário {/* e */} deste bloco. */}
+    {/* ----------------------------------------------------------------- */}
+    {
+      /*
     {
       processBlock && (
         <section class="mt-16 border-t border-base-200 pt-12 dark:border-base-800 lg:mt-24 lg:pt-16">
           <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 lg:items-center">
-            <div class="order-2 lg:order-1 lg:col-span-5">
-              <EditableImage
-                imageKey={key("image.process")}
-                width={900}
-                height={700}
-                src={defaultProjectImage}
-                alt={`Imagem — ${processBlock.heading}`}
-                class="aspect-[5/4] w-full object-cover object-center"
-              />
-            </div>
-
+            
             <div class="order-1 lg:order-2 lg:col-span-4 lg:col-start-8">
-              <Text tag="p" variant="textXS" class="uppercase text-base-600 dark:text-base-300">
+              <Text
+                tag="p"
+                variant="textXS"
+                class="uppercase text-base-600 dark:text-base-300"
+              >
                 {eyebrow} 02
               </Text>
               <Text
@@ -209,7 +247,11 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
       resultBlock && (
         <section class="mt-16 border-t border-base-200 pt-12 dark:border-base-800 lg:mt-24 lg:pt-16">
           <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
-            <Text tag="p" variant="textXS" class="uppercase text-base-600 dark:text-base-300">
+            <Text
+              tag="p"
+              variant="textXS"
+              class="uppercase text-base-600 dark:text-base-300"
+            >
               {eyebrow} 03
             </Text>
 
@@ -241,20 +283,18 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
               {getContent(key("blocks.2.aside"), resultBlock.aside)}
             </Text>
           </div>
-
-          <EditableImage
-            imageKey={key("image.result")}
-            width={1420}
-            height={930}
-            src={defaultProjectImage}
-            alt={`Imagem final — ${resultBlock.heading}`}
-            class="mt-10 aspect-[16/9] w-full object-cover object-center lg:mt-12"
-          />
         </section>
       )
     }
+    */
+    }
 
-    <div class="mt-16 border-t border-base-200 pt-10 dark:border-base-800 lg:mt-24">
+    {/* ----------------------------------------------------------------- */}
+    {/* 6. RODAPÉ: Botão inferior de retorno                             */}
+    {/* ----------------------------------------------------------------- */}
+    <div
+      class="mt-16 border-t border-base-200 pt-10 dark:border-base-800 lg:mt-24"
+    >
       <a
         href={backHref}
         class="text-xs tracking-tight text-base-600 transition-colors hover:text-accent-700 dark:text-base-300 dark:hover:text-accent-400"

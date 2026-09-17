@@ -60,39 +60,12 @@ export const workItems: PortfolioCase[] = [
     category: "Tipo de trabalho",
     detail: defaultDetail("trabalho"),
   },
-  {
-    slug: "trabalho-2",
-    year: "Ano — Ano",
-    title: "Nome da empresa ou cliente",
-    description:
-      "Descreva aqui a experiência, seu papel e principais contribuições no projeto.",
-    category: "Tipo de trabalho",
-    detail: defaultDetail("trabalho"),
-  },
 
 ];
 
 export const projectItems: PortfolioCase[] = [
   {
     slug: "projeto-1",
-    year: "Ano",
-    title: "Nome do projeto",
-    description:
-      "Descreva aqui o projeto, o problema resolvido, sua stack e o resultado.",
-    category: "Categoria",
-    detail: defaultDetail("projeto"),
-  },
-  {
-    slug: "projeto-2",
-    year: "Ano",
-    title: "Nome do projeto",
-    description:
-      "Descreva aqui o projeto, o problema resolvido, sua stack e o resultado.",
-    category: "Categoria",
-    detail: defaultDetail("projeto"),
-  },
-  {
-    slug: "projeto-3",
     year: "Ano",
     title: "Nome do projeto",
     description:
