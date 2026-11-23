@@ -33,6 +33,11 @@ const {
 // Desestruturação dos blocos de conteúdo cadastrados (se existirem)
 const [contextBlock, processBlock, resultBlock] = item.detail?.blocks ?? [];
 
+// Numeração sequencial dos blocos exibidos (01, 02...), ignorando posições vazias
+const visibleBlocks = [showBlocks && contextBlock, processBlock, resultBlock].filter(Boolean);
+const blockNumber = (block: unknown) =>
+  String(visibleBlocks.indexOf(block) + 1).padStart(2, "0");
+
 // Função auxiliar para gerar chaves de texto dinâmicas (integradas com content-overrides.json)
 const key = (suffix: string) => `${contentPrefix}.${suffix}`;
 ---
@@ -121,6 +126,29 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
             </div>
           ))
         }
+
+        {/* Links externos do projeto (Site, GitHub...), definidos em portfolio.ts */}
+        {
+          item.links?.map((link) => (
+            <div>
+              <Text
+                tag="p"
+                variant="textXS"
+                class="uppercase text-base-400 dark:text-base-500"
+              >
+                {link.label}
+              </Text>
+              <a
+                href={link.url}
+                class="mt-1 inline-block break-all text-sm text-base-700 underline underline-offset-4 transition-colors hover:text-accent-700 dark:text-base-200 dark:hover:text-accent-400"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {link.url.replace(/^https?:\/\/|\/$/g, "")}
+              </a>
+            </div>
+          ))
+        }
       </aside>
     </div>
 
@@ -150,7 +178,7 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
                 variant="textXS"
                 class="uppercase text-base-600 dark:text-base-300"
               >
-                {eyebrow} 01
+                {`${eyebrow} ${blockNumber(contextBlock)}`}
               </Text>
               <Text
                 tag="p"
@@ -214,7 +242,7 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
                 variant="textXS"
                 class="uppercase text-base-600 dark:text-base-300"
               >
-                {eyebrow} 02
+                {`${eyebrow} ${blockNumber(processBlock)}`}
               </Text>
               <Text
                 tag="h2"
@@ -258,7 +286,7 @@ const key = (suffix: string) => `${contentPrefix}.${suffix}`;
               variant="textXS"
               class="uppercase text-base-600 dark:text-base-300"
             >
-              {eyebrow} 03
+              {`${eyebrow} ${blockNumber(resultBlock)}`}
             </Text>
 
             <div class="lg:col-span-2">

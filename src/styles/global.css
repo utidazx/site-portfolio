@@ -39,52 +39,6 @@
   }
 }
 
-body.edit-mode-active.custom-cursor-active,
-body.edit-mode-active.custom-cursor-active [data-editable] {
-  cursor: text;
-}
-
-body.edit-mode-active [data-editable] {
-  outline: 1px dashed color-mix(in oklab, var(--color-accent-500) 70%, transparent);
-  outline-offset: 4px;
-  border-radius: 2px;
-  transition: outline-color 0.2s ease, background-color 0.2s ease;
-}
-
-body.edit-mode-active [data-editable]:focus {
-  outline: 2px solid var(--color-accent-500);
-  background-color: color-mix(in oklab, var(--color-accent-500) 8%, transparent);
-}
-
-body.edit-mode-active a:not([data-editable]):not([data-editable-link]),
-body.edit-mode-active [data-portfolio-media] {
-  pointer-events: none;
-}
-
-body.edit-mode-active [data-editable-link] {
-  pointer-events: auto;
-}
-
-body.edit-mode-active .editable-link-trigger {
-  display: inline-flex;
-  pointer-events: auto;
-}
-
-body.edit-mode-active [data-editable-image] {
-  cursor: pointer;
-  outline: 1px dashed color-mix(in oklab, var(--color-accent-500) 70%, transparent);
-  outline-offset: 4px;
-}
-
-body.edit-mode-active [data-editable-image],
-body.edit-mode-active .editable-image {
-  pointer-events: auto;
-}
-
-body.edit-mode-active .editable-image-badge {
-  display: flex;
-}
-
 .scroll-word-wrap {
   padding-bottom: 0.08em;
 }

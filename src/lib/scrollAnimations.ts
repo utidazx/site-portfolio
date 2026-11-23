@@ -188,9 +188,3 @@ export function initPageAnimations() {
     ScrollTrigger.refresh();
   });
 }
-
-export function refreshScrollAnimations() {
-  if (document.body.classList.contains("edit-mode-active")) return;
-
-  initPageAnimations();
-}

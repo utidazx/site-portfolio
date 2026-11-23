@@ -1,6 +1,6 @@
 <script>
   import { ScrollTrigger } from "gsap/ScrollTrigger";
-  import { initPageAnimations, refreshScrollAnimations } from "@/lib/scrollAnimations";
+  import { initPageAnimations } from "@/lib/scrollAnimations";
 
   function setup() {
     initPageAnimations();
@@ -8,11 +8,6 @@
   }
 
   window.addEventListener("page-loader-complete", setup, { once: true });
-
-  window.addEventListener("content-overrides-applied", () => {
-    refreshScrollAnimations();
-    window.setTimeout(() => ScrollTrigger.refresh(), 150);
-  });
 
   const loader = document.getElementById("page-loader");
   if (!loader) {
