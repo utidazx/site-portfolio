@@ -106,14 +106,7 @@ export const projectItems: PortfolioCase[] = [
         { label: "Parceria", value: "Projeto em dupla com o Cabral" },
         { label: "Formato", value: "Carrosséis de 9 lâminas no Instagram" },
       ],
-      blocks: [
-        null,
-        {
-          heading: "A Abordagem",
-          text: "Em cada post, mostro os custos e benefícios das opções em vez de apontar um vencedor sem contexto. Também uso só exemplos que dá para conferir e fecho convidando as pessoas a trocar experiências nos comentários.",
-          aside: "Custos e benefícios, sem vencedor sem contexto.",
-        },
-      ],
+      blocks: [],
     },
   },
 ];
